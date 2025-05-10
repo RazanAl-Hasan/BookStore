@@ -1,8 +1,6 @@
 const express = require("express");
+const {validationCreateBook,validationUpdateBook}=require("../models/bookModel");
 const router = express.Router(); // استخدم Router بدلاً من Express
-const Joi = require("joi");
-
-// تطبيق الميدل وير
 router.use(express.json());
 
 const books = [
@@ -99,23 +97,5 @@ router.put("/:id", (req, res) => { // إضافة req و res كوسائط
         res.status(404).json({ message: "Not found" });
     }
 });
-
-// Validation Update Book
-function validationUpdateBook(obj) {
-    const schema = Joi.object({
-        name: Joi.string().min(3).max(10).required(), // تصحيح الأخطاء الإملائية
-        pages: Joi.number().required() // إضافة عدد الصفحات كشرط مطلوب
-    });
-    return schema.validate(obj);
-}
-
-// Validation Create a Book
-function validationCreateBook(obj) {
-    const schema = Joi.object({
-        name: Joi.string().min(3).max(10).required(), // تصحيح الأخطاء الإملائية
-        pages: Joi.number().required() // إضافة عدد الصفحات كشرط مطلوب
-    });
-    return schema.validate(obj);
-}
 
 module.exports = router;
