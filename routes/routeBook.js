@@ -15,7 +15,6 @@ const books = [
         pages: 500
     }
 ];
-
 /**
  * @desc Get all Books
  * @route /api/books
@@ -25,7 +24,6 @@ const books = [
 router.get("/", (req, res) => {
     res.json(books);
 });
-
 /**
  * @desc Get a book by id
  * @route /api/books/:id
@@ -40,7 +38,6 @@ router.get("/:id", (req, res) => {
         res.status(404).send("The book not found");
     }
 });
-
 /**
  * @desc Create new book
  * @route /api/books
@@ -54,13 +51,14 @@ router.post("/", (req, res) => {
     }
     const book = {
         id: books.length + 1,
-        name: req.body.name,
-        pages: req.body.pages // إضافة عدد الصفحات
+        title: req.body.title,
+        description: req.body.description,
+        price:req.body.price,
+        cover:req.body.cover // إضافة عدد الصفحات
     };
     books.push(book);
     res.status(201).json(book);
 });
-
 /**
  * @desc Delete a book by id
  * @route /api/books/:id
@@ -76,7 +74,6 @@ router.delete("/:id", (req, res) => { // إضافة req و res كوسائط
         res.status(404).json({ message: "Not found" });
     }
 });
-
 /**
  * @desc Update a book by id
  * @route /api/books/:id
@@ -86,16 +83,17 @@ router.delete("/:id", (req, res) => { // إضافة req و res كوسائط
 router.put("/:id", (req, res) => { // إضافة req و res كوسائط
     const { error } = validationUpdateBook(req.body);
     if (error) {
-        return res.status(400).json({ message: error.details[0].message }); // تصحيح الخطأ الإملائي
+        return res.status(400).json({ message: error.details[0].message });
     }
     const book = books.find(b => b.id === parseInt(req.params.id)); // استخدم req.params.id
     if (book) {
-        book.name = req.body.name; // تحديث اسم الكتاب
-        book.pages = req.body.pages; // تحديث عدد الصفحات
+        book.title = req.body.title; // تحديث اسم الكتاب
+        book.description = req.body.description;
+        book.cover=req.body.cover;
+        book.price=req.body.price; // تحديث عدد الصفحات
         res.status(200).json({ message: "The book has been updated" });
     } else {
         res.status(404).json({ message: "Not found" });
     }
 });
-
 module.exports = router;
