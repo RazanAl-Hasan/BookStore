@@ -42,10 +42,10 @@ const author = await Author.findById(req.params.id)
  * @access public
  */
 router.post("/", asyncHandler(async (req, res) => {
-    const { error } = validationCreateAuthor(req.body); // تصحيح الاسم إلى validationCreateAuthor
-    if (error) {
-        return res.status(400).json({ message: "The information is wrong" });
-    }
+    // const { error } = validationCreateAuthor(req.body); // تصحيح الاسم إلى validationCreateAuthor
+    // if (error) {
+    //     return res.status(400).json({ message: "The information is wrong" });
+    // }
         const author = new Author({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -64,7 +64,7 @@ router.post("/", asyncHandler(async (req, res) => {
 router.put("/:id", asyncHandler(async(req, res) => {
     const { error } = validationUpdateAuthor(req.body); // تصحيح الاسم إلى validationUpdateAuthor
     if (error) {
-        return res.status(400).json({ message: error.details[0].massage});
+        return res.status(400).json({ message: error.details[0].message});
     }
     const author =await Author.findByIdAndUpdate(req.params.id,{
         $set:{
@@ -72,11 +72,10 @@ router.put("/:id", asyncHandler(async(req, res) => {
             lastName: req.body.lastName,
             nationality: req.body.nationality,
             image:req.body.image
-        }
+            }
     })
     res.status(200).json(author);
 }));
-
 /**
  * @desc Delete an author by id
  * @route /api/authors/:id

@@ -16,10 +16,10 @@ app.use(express.json()); // إضافة هذه السطر لتحليل JSON في 
 
 // تعريف المسارات
 app.use("/api/books", routeBook);
-app.use("/api/authors", routeAuthors); // تصحيح الاسم هنا
+app.use("/api/authors", routeAuthors);
 
 // تشغيل الخادم
-const port = 3000; // تصحيح الاسم إلى port
+const port = 3000; 
 app.listen(port, () => {
     console.log('Server is running at port ' + port); // تصحيح الرسالة
 });

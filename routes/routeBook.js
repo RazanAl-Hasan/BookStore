@@ -1,99 +1,86 @@
 const express = require("express");
-const {validationCreateBook,validationUpdateBook}=require("../models/bookModel");
+const asyncHandler=require("express-async-handler");
+const {validationCreateBook,validationUpdateBook,Book}=require("../models/bookModel");
 const router = express.Router(); // استخدم Router بدلاً من Express
 router.use(express.json());
-
-const books = [
-    {
-        id: 1,
-        name: "A",
-        pages: 300
-    },
-    {
-        id: 2,
-        name: "B",
-        pages: 500
-    }
-];
 /**
  * @desc Get all Books
  * @route /api/books
  * @method GET
  * @access public
  */
-router.get("/", (req, res) => {
+router.get("/", asyncHandler( async(req, res) => {
+    const books=await Book.find()
     res.json(books);
-});
+}));
 /**
  * @desc Get a book by id
  * @route /api/books/:id
  * @method GET
  * @access public
  */
-router.get("/:id", (req, res) => {
-    const book = books.find(b => b.id === parseInt(req.params.id)); // استخدم === بدلاً من =
+router.get("/:id",asyncHandler(async (req, res) => {
+    const book = await Book.findById(req.params.id)
     if (book) {
         res.status(200).send(book);
     } else {
         res.status(404).send("The book not found");
     }
-});
+}));
 /**
  * @desc Create new book
  * @route /api/books
  * @method POST
  * @access public
  */
-router.post("/", (req, res) => {
+router.post("/", asyncHandler(async(req, res) => {
     const { error } = validationCreateBook(req.body); // تصحيح الاسم إلى validationCreateBook
     if (error) {
         return res.status(400).json(error.details[0].message); // تصحيح الخطأ الإملائي
     }
-    const book = {
-        id: books.length + 1,
+    const book =new Book ({
         title: req.body.title,
         description: req.body.description,
         price:req.body.price,
-        cover:req.body.cover // إضافة عدد الصفحات
-    };
-    books.push(book);
-    res.status(201).json(book);
-});
+        cover:req.body.cover 
+    });
+    const result =await book.save();
+    res.status(201).json(result);
+}));
 /**
  * @desc Delete a book by id
  * @route /api/books/:id
  * @method DELETE
  * @access public
  */
-router.delete("/:id", (req, res) => { // إضافة req و res كوسائط
-    const bookIndex = books.findIndex(b => b.id === parseInt(req.params.id)); // استخدم req.params.id
-    if (bookIndex !== -1) {
-        books.splice(bookIndex, 1); // حذف الكتاب من المصفوفة
-        res.status(200).json({ message: "The book has been deleted" });
-    } else {
-        res.status(404).json({ message: "Not found" });
-    }
-});
+router.delete("/:id", asyncHandler(async(req, res) => { 
+    const book=await Book.findById(req.params.id)
+if(book){
+    const bookIndex =await Book.findByIdAndDelete(req.params.id)
+        res.status(200).json({ message: "The book has been deleted" });}
+    else{
+        res.status(404).json({ message: "Not found" });}
+    
+}));
 /**
  * @desc Update a book by id
  * @route /api/books/:id
  * @method PUT
  * @access public
  */
-router.put("/:id", (req, res) => { // إضافة req و res كوسائط
+router.put("/:id", asyncHandler(async(req, res) => { // إضافة req و res كوسائط
     const { error } = validationUpdateBook(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
-    }
-    const book = books.find(b => b.id === parseInt(req.params.id)); // استخدم req.params.id
-    if (book) {
-        book.title = req.body.title; // تحديث اسم الكتاب
-        book.description = req.body.description;
-        book.cover=req.body.cover;
-        book.price=req.body.price; // تحديث عدد الصفحات
-        res.status(200).json({ message: "The book has been updated" });
-    } else {
-        res.status(404).json({ message: "Not found" });
-    }
-});
+}
+    const book = await Book.findByIdAndUpdate(req.params.id,{
+$set:{
+        title:req.body.title, 
+        description:req.body.description,
+        cover:req.body.cover,
+        price:req.body.price
+}},
+{new:true});
+res.status(200).json({book})
+}));
 module.exports = router;
