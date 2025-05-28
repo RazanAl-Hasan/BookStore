@@ -3,7 +3,8 @@ const asyncHandler=require("express-async-handler");
 const router = require("./routeBook");
 const {User, validationLoginUser, 
     validationRegisterUser,
-validationUpdateUser}=require("../models/userModel")
+validationUpdateUser}=require("../models/userModel");
+const bcrypt=require("bcryptjs");
 
 
 /**
@@ -21,6 +22,10 @@ let user=await User.findone({email:req.body.email});
 if(user){
     return res.status(400).json({message:"this user already registered"})
 }
+//hash password
+const salt=await bcrypt.genSalt(10);
+req.body.password=await bcrypt.hash(req.body.password,salt)
+
 user=new User({
     email:req.body.email,
     userName:req.body.userName,
