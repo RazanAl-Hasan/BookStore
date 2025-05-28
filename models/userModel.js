@@ -33,3 +33,42 @@ const userSchema=new  mongoose.Schema({
         
     }
 },{timeseries:true , versionKey:false}) 
+
+const User=mongoose.model("User", userSchema);
+//validate register user
+function validationRegisterUser(obj){
+const schema=Joi.object({
+    email:Joi.string().max(100).min(5).required().trim().email(),
+    userName:Joi.string().max(200).min(2).required().trim(),
+    password:Joi.string().min(6).required().trim(),
+    isAdmin:Joi.bool(),
+});
+return schema.validate(obj);
+}
+
+//validate login user
+function validationLoginUser(obj){
+const schema=Joi.object({
+    email:Joi.string().max(100).min(5).required().trim().email(),
+    password:Joi.string().min(6).required().trim(),
+});
+return schema.validate(obj);
+}
+
+//validate upgate user
+function validationUpdateUser(obj){
+const schema=Joi.object({
+    email:Joi.string().max(100).min(5).trim().email(),
+    userName:Joi.string().max(200).min(2).trim(),
+    password:Joi.string().min(6).trim(),
+    isAdmin:Joi.bool(),
+});
+return schema.validate(obj);
+}
+
+module.exports={
+    User,
+    validationLoginUser,
+    validationRegisterUser,
+    validationUpdateUser
+};
