@@ -1,7 +1,7 @@
 const express = require("express");
 const asyncHandler=require("express-async-handler");
-const router = express.Router(); // استخدم Router بدلاً من Express
-const Joi = require("joi"); // يجب استخدام require بدلاً من express("joi")
+const router = express.Router(); 
+const Joi = require("joi"); 
 const Author = require("../models/authorModel");
 
  //

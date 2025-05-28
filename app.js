@@ -1,6 +1,7 @@
 const express = require("express");
 const routeBook = require("./routes/routeBook");
-const routeAuthors = require("./routes/routeAthors"); 
+const routeAuthors = require("./routes/routeAthors");
+const routeAuth = require("./routes/routeAuth");
 const logger=require('./middlewares/logger')
 const {errorHandler,notFound}=require('./middlewares/errors');
 const mongoose = require("mongoose");
@@ -21,6 +22,8 @@ app.use(express.json());
 // تعريف المسارات
 app.use("/api/books", routeBook);
 app.use("/api/authors", routeAuthors);
+app.use("/api/auth", routeAuth);
+
 
 //Error handlaer middelwares
 app.use(notFound);
