@@ -15,10 +15,9 @@ const BookSchema = new mongoose.Schema({
     author:{
         type:mongoose.Schema.ObjectId,
         ref:'Author',
-        required:true
     },
     description:{
-type:String,
+        type:String,
         required:true,
         trim:true,
         minlength:10
@@ -55,7 +54,6 @@ function validationUpdateBook(obj) {
 function validationCreateBook(obj) {
     const schema = Joi.object({
         title: Joi.string().min(3).max(250).required(),
-        author: Joi.string().required, 
         price:Joi.number().min(0),
         cover:Joi.string().required().valid("soft cover", " hard cover"),
         description:Joi.string().trim().min(10).required()

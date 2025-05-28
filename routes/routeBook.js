@@ -68,7 +68,7 @@ if(book){
  * @method PUT
  * @access public
  */
-router.put("/:id", asyncHandler(async(req, res) => { // إضافة req و res كوسائط
+router.post("/:id", asyncHandler(async(req, res) => { // إضافة req و res كوسائط
     const { error } = validationUpdateBook(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });

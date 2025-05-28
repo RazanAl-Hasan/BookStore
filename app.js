@@ -1,6 +1,8 @@
 const express = require("express");
 const routeBook = require("./routes/routeBook");
-const routeAuthors = require("./routes/routeAthors"); // تصحيح الاسم هنا
+const routeAuthors = require("./routes/routeAthors"); 
+const logger=require('./middlewares/logger')
+const {errorHandler,notFound}=require('./middlewares/errors');
 const mongoose = require("mongoose");
 
 // الاتصال بقاعدة البيانات
@@ -11,15 +13,22 @@ mongoose.connect("mongodb://localhost/bookStoreDB") // تصحيح URI للاتص
 // إنشاء التطبيق
 const app = express();
 
+app.use(logger);
+
 // استخدام الميدل وير لتحليل JSON
-app.use(express.json()); // إضافة هذه السطر لتحليل JSON في الطلبات
+app.use(express.json()); 
 
 // تعريف المسارات
 app.use("/api/books", routeBook);
 app.use("/api/authors", routeAuthors);
 
-// تشغيل الخادم
-const port = 3000; 
-app.listen(port, () => {
-    console.log('Server is running at port ' + port); // تصحيح الرسالة
+//Error handlaer middelwares
+app.use(notFound);
+app.use(errorHandler);
+
+
+// تشغيل الخادمr
+const PORT = process.env.PORT || 3000; 
+app.listen(PORT, () => {
+    console.log('Server is running at PORT ' + PORT); 
 });
