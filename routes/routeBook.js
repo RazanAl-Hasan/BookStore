@@ -1,5 +1,8 @@
 const express = require("express");
 const asyncHandler=require("express-async-handler");
+const {verifyToken 
+    ,verifyTokenAndAuthorizeTheUser
+    ,verifyTokenAndAdmin}=require("../middlewares/verifyToken");
 const {validationCreateBook,validationUpdateBook,Book}=require("../models/bookModel");
 const router = express.Router(); // استخدم Router بدلاً من Express
 router.use(express.json());
@@ -31,13 +34,12 @@ router.get("/:id",asyncHandler(async (req, res) => {
  * @desc Create new book
  * @route /api/books
  * @method POST
- * @access public
+ * @access private (only admin)
  */
-router.post("/", asyncHandler(async(req, res) => {
-    const { error } = validationCreateBook(req.body); // تصحيح الاسم إلى validationCreateBook
+router.post("/",verifyTokenAndAdmin, asyncHandler(async(req, res) => {
+    const { error } = validationCreateBook(req.body); 
     if (error) {
-        return res.status(400).json(error.details[0].message); // تصحيح الخطأ الإملائي
-    }
+        return res.status(400).json(error.details[0].message); }
     const book =new Book ({
         title: req.body.title,
         description: req.body.description,
@@ -51,24 +53,23 @@ router.post("/", asyncHandler(async(req, res) => {
  * @desc Delete a book by id
  * @route /api/books/:id
  * @method DELETE
- * @access public
+ * @access private (only admin)
  */
-router.delete("/:id", asyncHandler(async(req, res) => { 
+router.delete("/:id",verifyTokenAndAdmin, asyncHandler(async(req, res) => { 
     const book=await Book.findById(req.params.id)
 if(book){
     const bookIndex =await Book.findByIdAndDelete(req.params.id)
         res.status(200).json({ message: "The book has been deleted" });}
     else{
         res.status(404).json({ message: "Not found" });}
-    
 }));
 /**
  * @desc Update a book by id
  * @route /api/books/:id
  * @method PUT
- * @access public
+ * @access private (only admin)
  */
-router.post("/:id", asyncHandler(async(req, res) => { // إضافة req و res كوسائط
+router.put("/:id",verifyTokenAndAdmin, asyncHandler(async(req, res) => { 
     const { error } = validationUpdateBook(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
@@ -83,4 +84,7 @@ $set:{
 {new:true});
 res.status(200).json({book})
 }));
+
+
+
 module.exports = router;
