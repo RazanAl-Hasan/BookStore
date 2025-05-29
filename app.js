@@ -1,34 +1,28 @@
 const express = require("express");
-const routeBook = require("./routes/routeBook");
-const routeAuthors = require("./routes/routeAthors");
-const routeAuth = require("./routes/routeAuth");
 const logger=require('./middlewares/logger')
 const {errorHandler,notFound}=require('./middlewares/errors');
-const mongoose = require("mongoose");
+const connectToDB=require("./config/db");
+require("dotenv").config();
 
 // الاتصال بقاعدة البيانات
-mongoose.connect("mongodb://localhost/bookStoreDB") // تصحيح URI للاتصال بـ MongoDB
-    .then(() => console.log("Connected to MongoDB")) // تصحيح الرسالة
-    .catch((error) => console.log("Connection failed to MongoDB", error)); // تصحيح الخطأ الإملائي
+connectToDB();
 
 // إنشاء التطبيق
 const app = express();
 
-app.use(logger);
-
 // استخدام الميدل وير لتحليل JSON
 app.use(express.json()); 
+app.use(logger);
 
 // تعريف المسارات
-app.use("/api/books", routeBook);
-app.use("/api/authors", routeAuthors);
-app.use("/api/auth", routeAuth);
-
+app.use("/api/books", require("./routes/routeBook"));
+app.use("/api/authors", require("./routes/routeAthors"));
+app.use("/api/auth", require("./routes/routeAuth"));
+app.use("/api/users", require("./routes/routeUser"));
 
 //Error handlaer middelwares
 app.use(notFound);
 app.use(errorHandler);
-
 
 // تشغيل الخادمr
 const PORT = process.env.PORT || 3000; 
