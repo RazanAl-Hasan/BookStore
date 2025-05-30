@@ -30,3 +30,33 @@ if(process.argv[2]==="-import"){
 }else if(process.argv[2]==="-remove"){
     removeBooks();
 }
+
+
+//Import Author
+const importAuthor=async()=>{
+    try {
+        await Author.insertMany(books);
+        console.log("Author imported");
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+}
+//Remove Author
+const removeAuthor=async()=>{
+    try {
+        await Author.deleteMany();
+        console.log("Author removed");
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+}
+
+
+
+if(process.argv[2]==="-import-Author"){
+        importAuthor();
+}else if(process.argv[2]==="-remove-Author"){
+    removeAuthor();
+}
