@@ -19,7 +19,7 @@ const {error}=validationRegisterUser(req.body);
 if(error){
     return res.status(400).json({message:error.details[0].message});
 }
-let user=await User.findone({email:req.body.email});
+let user=await User.findOne({email:req.body.email});
 if(user){
     return res.status(400).json({message:"this user already registered"})
 }

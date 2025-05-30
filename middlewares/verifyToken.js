@@ -9,10 +9,10 @@ try {
 req.user=decoded;
 next();
 } catch (error) {
-    res.status(401).json({message:"invalid token"});
+    return res.status(401).json({message:"invalid token"});
 }
 }else {
-res.status(401).json({message:"no token provided"});
+return res.status(401).json({message:"no token provided"});
 }
 }
 // verify Token & Authorize the user
@@ -21,7 +21,7 @@ verifyToken(req,res ,()=>{
     if(req.user._id === req.params.id || req.user.isAdmin){
         next();
     }else{
-        res.status(403).json({message:"you are not allowed "});
+        return res.status(403).json({message:"you are not allowed "});
     }
 });
 }
@@ -32,7 +32,7 @@ verifyToken(req,res , ()=>{
     if(req.user.isAdmin){
         next();
     }else{
-        res.status(403).json({message:"you are not allowed, only admin allowed"});
+        return res.status(403).json({message:"you are not allowed, only admin allowed"});
     }
 });
 }

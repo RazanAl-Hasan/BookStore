@@ -1,4 +1,4 @@
-const express = require("express");;
+const express = require("express");
 const {verifyToken 
     ,verifyTokenAndAuthorizeTheUser
     ,verifyTokenAndAdmin}=require("../middlewares/verifyToken");
@@ -78,6 +78,7 @@ router.put("/:id", verifyTokenAndAdmin,asyncHandler(async(req, res) => {
     })
     res.status(200).json(author);
 }));
+
 /**
  * @desc Delete an author by id
  * @route /api/authors/:id

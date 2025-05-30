@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const { trim } = require("validator");
 
@@ -32,7 +33,7 @@ const userSchema=new  mongoose.Schema({
         default:false
         
     }
-},{timeseries:true , versionKey:false}) 
+},{timestamps:true , versionKey:false}) 
 
 //generate Token
 userSchema.method.generateToken=function(){ 
@@ -44,7 +45,7 @@ const User=mongoose.model("User", userSchema);
 //validate register user
 function validationRegisterUser(obj){
 const schema=Joi.object({
-    email:Joi.string().max(100).min(5).required().trim().email(),
+    email:Joi.string().max(100).min(5).required().email().trim(),
     userName:Joi.string().max(200).min(2).required().trim(),
     password:Joi.string().min(6).required().trim()
 });
