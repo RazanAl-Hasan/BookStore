@@ -17,7 +17,10 @@ validationCreateAuthor} = require("../models/authorModel");
  */
 router.get("/", asyncHandler(
     async(req,res)=>{
-        const author=await Author.find();
+    const {pageNumber}=req.query;
+    const authosPerPage=2;
+        const author=await Author.find()
+                        .skip((pageNumber-1)*authosPerPage).limit(authosPerPage);;
         res.status(200).json(author);
     }
 ));

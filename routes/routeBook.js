@@ -13,7 +13,10 @@ router.use(express.json());
  * @access public
  */
 router.get("/", asyncHandler( async(req, res) => {
+    const {pageNumber}=req.query;
+    const booksPerPage=2;
     const books=await Book.find()
+                        .skip((pageNumber-1)*booksPerPage).limit(booksPerPage);
     res.json(books);
 }));
 /**
