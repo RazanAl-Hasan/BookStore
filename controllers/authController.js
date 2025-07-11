@@ -1,6 +1,7 @@
 const {User, validationLoginUser, 
     validationRegisterUser,
 validationUpdateUser}=require("../models/userModel");
+const bcrypt = require('bcryptjs');
 const asyncHandler=require("express-async-handler");
 
 /**
@@ -21,6 +22,7 @@ if(user){
 //hash password
 const salt=await bcrypt.genSalt(10);
 req.body.password=await bcrypt.hash(req.body.password,salt)
+
 user=new User({
     email:req.body.email,
     userName:req.body.userName,
@@ -42,7 +44,7 @@ const {error}=validationLoginUser(req.body);
 if(error){
     return res.status(400).json({message:error.details[0].message});
 }
-let user=await User.findone({email:req.body.email});
+let user=await User.findOne({email:req.body.email});
 if(!user){
     return res.status(400).json({message:"invalid email or password"})
 }

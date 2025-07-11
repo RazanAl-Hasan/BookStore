@@ -36,7 +36,7 @@ const userSchema=new  mongoose.Schema({
 },{timestamps:true , versionKey:false}) 
 
 //generate Token
-userSchema.method.generateToken=function(){ 
+userSchema.methods.generateToken=function(){ 
     return jwt.sign({id:this._id,isAdmin:this.isAdmin},process.env.JWT_SECRET_KEY);
 }
 const User=mongoose.model("User", userSchema);
@@ -68,7 +68,6 @@ const schema=Joi.object({
 });
 return schema.validate(obj);
 }
-
 
 module.exports={
     User,
