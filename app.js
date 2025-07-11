@@ -4,6 +4,7 @@ const { errorHandler, notFound } = require('./middlewares/errors');
 const connectToDB = require('./config/db');
 const { extend } = require('joi');
 const path = require('path');
+const cors=require("cors");
 const helmet=require("helmet");
 require('dotenv').config();
 
@@ -24,6 +25,9 @@ app.set('view engine', 'ejs');
 
 // helmet
 app.use(helmet());
+
+// cors policy
+app.use(cors());
 
 // تعريف المسارات
 app.use('/api/books', require('./routes/routeBook'));
