@@ -4,6 +4,7 @@ const { errorHandler, notFound } = require('./middlewares/errors');
 const connectToDB = require('./config/db');
 const { extend } = require('joi');
 const path = require('path');
+const helmet=require("helmet");
 require('dotenv').config();
 
 // الاتصال بقاعدة البيانات
@@ -20,6 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extend: false }));
 app.use(logger);
 app.set('view engine', 'ejs');
+
+// helmet
+app.use(helmet());
 
 // تعريف المسارات
 app.use('/api/books', require('./routes/routeBook'));
