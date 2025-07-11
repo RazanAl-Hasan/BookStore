@@ -1,19 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <title>check your email</title>
+    <title>تحقق من بريدك الإلكتروني</title>
+    <!-- Bootstrap 5 RTL -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .email-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: none;
+            max-width: 600px;
+            width: 100%;
+            background: white;
+        }
+        .email-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+            text-align: center;
+        }
+        .email-body {
+            padding: 30px;
+            text-align: center;
+        }
+        .email-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .btn-back {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 10px 25px;
+            font-weight: 600;
+            color: white;
+            border-radius: 50px;
+            margin-top: 20px;
+        }
+        .btn-back:hover {
+            opacity: 0.9;
+            color: white;
+        }
+    </style>
 </head>
-<body class="bg-info my-5 d-flex justify-content-center">
-    <div class="container bg-white rounded p-3 ">
-    <p>
-        link for reset your password has been send to your email
-    </p>
-<h2>
-    please check your email
-</h2>
+<body>
+    <div class="email-card">
+        <div class="email-header">
+            <h3><i class="fas fa-envelope-open-text me-2"></i>تحقق من بريدك الإلكتروني</h3>
+        </div>
+        <div class="email-body">
+            <div class="email-icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+            <h2 class="mb-3">تم إرسال رابط إعادة التعيين</h2>
+            <p class="lead text-muted">
+                لقد أرسلنا رابطًا لإعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد أو مجلد الرسائل غير المرغوب فيها.
+            </p>
+            
+            <div class="mt-4">
+                <p class="text-muted small">
+                    لم تستلم البريد؟ <a href="#" class="text-decoration-none">إعادة الإرسال</a>
+                </p>
+                <a href="login.html" class="btn btn-back">
+                    <i class="fas fa-arrow-right me-2"></i>العودة لتسجيل الدخول
+                </a>
+            </div>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
