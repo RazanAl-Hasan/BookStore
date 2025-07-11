@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
+const passwordComplexity=require("joi-password-complexity");
 const { trim } = require('validator');
 
 //user schema
@@ -49,7 +50,7 @@ function validationRegisterUser(obj) {
   const schema = Joi.object({
     email: Joi.string().max(100).min(5).required().email().trim(),
     userName: Joi.string().max(200).min(2).required().trim(),
-    password: Joi.string().min(6).required().trim(),
+    password:passwordComplexity().required(),
   });
   return schema.validate(obj);
 }
