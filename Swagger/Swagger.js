@@ -6,7 +6,7 @@ const options = {
     info: {
       title: 'BookStore API',
       version: '1.0.0',
-      description: 'توثيق REST API لمشروع مكتبة باستخدام Node.js وExpress'
+      description: 'Documented the RESTful API for a BookStore project'
     },
     servers: [
       {
