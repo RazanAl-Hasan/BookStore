@@ -4,8 +4,10 @@ const { errorHandler, notFound } = require('./middlewares/errors');
 const connectToDB = require('./config/db');
 const { extend } = require('joi');
 const path = require('path');
-const cors=require("cors");
-const helmet=require("helmet");
+const cors = require('cors');
+const helmet = require('helmet');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./Swagger/Swagger'); 
 require('dotenv').config();
 
 // الاتصال بقاعدة البيانات
@@ -28,6 +30,7 @@ app.use(helmet());
 
 // cors policy
 app.use(cors());
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
 // تعريف المسارات
 app.use('/api/books', require('./routes/routeBook'));
@@ -40,6 +43,9 @@ app.use('/password', require('./routes/routePassword'));
 //Error handlaer middelwares
 app.use(notFound);
 app.use(errorHandler);
+
+
+
 
 // تشغيل الخادمr
 const PORT = process.env.PORT || 3000;
